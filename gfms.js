@@ -172,6 +172,10 @@ app.get('*', function(req, res, next) {
 
     }
     else if(is_image(dir)) {
+        //if the image is being loaded in an img tag just send the file
+        if(req.headers.accept.indexOf('text/html') === -1) {
+            return res.sendFile(dir);
+        }
 
         if(!watched[dir]) {
             fs.watchFile(dir, { interval: 500 }, function(curr, prev) {
